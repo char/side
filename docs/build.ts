@@ -59,5 +59,10 @@ export const transform = chainTransform(
     transformText(data, markdown =>
       renderTemplate(ctx, template, renderMarkdown(markdown))
     ),
-  minify
+  minify,
+  async (_c, path, data) => {
+    if (path.endsWith(".html")) {
+      return transformText(data, s => `<!DOCTYPE html>${s}`)
+    }
+  }
 )
