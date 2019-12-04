@@ -1,4 +1,4 @@
-# deno-compile-website
+# side
 
 A static site generator written using [deno](https://deno.land/).
 

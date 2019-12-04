@@ -17,12 +17,16 @@ export class BuildContext {
     this.manifest = manifest;
   }
 
+  locateFile(name: string): string {
+    return path.resolve(Deno.cwd(), this.source, name)
+  }
+
   async readFileStr(name: string) {
-    return await fs.readFileStr(path.resolve(this.source, name))
+    return await fs.readFileStr(this.locateFile(name))
   }
 
   async readFile(name: string) {
-    return await Deno.readFile(path.resolve(this.source, name))
+    return await Deno.readFile(this.locateFile(name))
   }
 
   async writeFile(name: string, data: Uint8Array) {
@@ -59,10 +63,12 @@ const setup = async (ctx: BuildContext, name: string) => {
 
 const transform = async (ctx: BuildContext, name: string) => {
   let data = await ctx.readFile(name)
-  name = await ctx.manifest.map(ctx, name, data)
+  const mutatedName = await ctx.manifest.map(ctx, name, data)
   const mutatedData = await ctx.manifest.transform(ctx, name, data)
-  if (mutatedData)
+  if (mutatedName && mutatedData) {
+    name = mutatedName
     data = mutatedData
+  }
 
   if (name && data)
     await ctx.writeFile(name, data)
