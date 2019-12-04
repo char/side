@@ -4,7 +4,7 @@ body {
   font: 16px / 1.6 sans-serif;
   margin: 0;
   min-height: 100vh;
-  overflow: scroll;
+  overflow: hidden scroll;
   word-wrap: break-word;
 }
 
