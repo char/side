@@ -4,7 +4,7 @@ A static site generator written using [deno](https://deno.land/).
 
 ## Build Manifest
 
-The *build manifest* resides in `build.ts` and is comprised of two functions:
+The *build manifest* resides in `build.ts` and is comprised of three functions:
 
 ```typescript
 export async function init(ctx) => void;
