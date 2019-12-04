@@ -8,6 +8,6 @@ The *build manifest* resides in `build.ts` and is comprised of two functions:
 
 ```typescript
 export async function init(ctx) => void;
-export async function getLocals(ctx, name, path) => any;
-export async function build(ctx, name, path) => { name, path };
+export async function map(ctx, name, data) => name;
+export async function transform(ctx, name, data) => data;
 ```
