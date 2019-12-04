@@ -55,14 +55,17 @@ export const map = (_c, path, _d) => {
 };
 
 export const transform = chainTransform(
-  async (ctx, path, data) =>
-    transformText(data, markdown =>
-      renderTemplate(ctx, template, renderMarkdown(markdown))
-    ),
-  minify,
+  async (ctx, path, data) => {
+    if (path.endsWith(".html"))
+      return transformText(data, markdown =>
+        renderTemplate(ctx, template, renderMarkdown(markdown))
+      )
+  },
+
   async (_c, path, data) => {
-    if (path.endsWith(".html")) {
+    if (path.endsWith(".html"))
       return transformText(data, s => `<!DOCTYPE html>${s}`)
-    }
-  }
+  },
+
+  minify,
 )
