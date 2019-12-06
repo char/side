@@ -1,9 +1,9 @@
-import { Templating as React, renderTemplate } from "../templating.ts"
+import { Templating as React, renderTemplate, Template } from "../templating.ts"
 import { transformText } from "../util.ts"
 import { renderMarkdown } from "../markdown.ts"
 import { minifyCSS } from "../minification.ts"
 
-export const template = ({ content }) => <html>
+export const template: Template = ({ content }) => <html>
   <head>
     <meta charset="utf-8" />
 

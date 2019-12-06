@@ -1,6 +1,6 @@
 import {
   transformText, renderMarkdown
-} from "https://side.alloc.tech/@0.1/mod.ts"
+} from "../../../lib/mod.ts" // from "https://side.alloc.tech/@0.1/mod.ts"
 
 export const map = (_c, path, _d) =>
   path.replace(/\.md$/, ".html")

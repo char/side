@@ -5,7 +5,9 @@ export const Templating = {
   createElement
 }
 
-export const renderTemplate = (ctx: BuildContext, template: (any) => string, scope: any) => {
-  const renderScope = { ...scope, ...ctx }
-  return renderToString(template(renderScope))
+export type Template = (props: { [x: string]: any, ctx: BuildContext }) => (string | Promise<string>)
+
+export const renderTemplate = async (ctx: BuildContext, template: Template, scope: any) => {
+  const renderScope = { ...scope, ctx }
+  return renderToString(await template(renderScope))
 }

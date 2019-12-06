@@ -7,7 +7,7 @@ export const mapTSX = (_c, path, _d) =>
 export const transformTSX = async (ctx, path, data) => {
   if (path.endsWith(".tsx")) {
     const template = (await import(`file://${ctx.locateFile(path)}`)).default
-    const html = renderTemplate(ctx, template, {})
+    const html = await renderTemplate(ctx, template, {})
     return encodeUTF8(html)
   }
 }
