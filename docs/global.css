@@ -60,7 +60,7 @@ nav li {
 
 nav, footer {
   background: #000;
-  padding: 1em;
+  padding: 0.5em;
 }
 
 nav a, nav a:hover, footer {
@@ -92,10 +92,6 @@ nav ul {
 
 nav li {
   margin: 0 2ch;
-}
-
-li + li {
-  margin-top: 4px;
 }
 
 li > ul {
