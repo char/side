@@ -102,8 +102,6 @@ p {
   margin: 16px auto;
 }
 
-
-
 .hljs {
   display: block;
   overflow-x: auto;
@@ -117,7 +115,7 @@ p {
 .hljs-name,
 .hljs-strong {
   font-weight: bold;
-  color: hsl(69, 63%, 76%);
+  color: hsl(61, 86%, 68%);
 }
 
 .hljs-comment {
