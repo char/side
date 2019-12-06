@@ -10,7 +10,7 @@ This is a static site generator made with `deno`.
 ## Install
 
 ```bash
-$ deno install side "https://side.alloc.tech/@0.1/main.ts" --allow-read --allow-write --allow-net
+$ deno install side "https://side.alloc.tech/x/main.ts" --allow-read --allow-write --allow-net
 ```
 
 ## Getting Started
@@ -22,7 +22,7 @@ All configuration is done through TypeScript. Here, we use a TypeScript *build m
 ```typescript
 import {
   transformText, renderMarkdown
-} from "https://side.alloc.tech/@0.1/mod.ts"
+} from "https://side.alloc.tech/x/mod.ts"
 
 export const map = (_c, path, _d) =>
   path.replace(/\.md$/, ".html")
