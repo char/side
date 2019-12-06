@@ -14,7 +14,7 @@ h1, h2, h3 {
 
 main {
   flex: 1;
-  width: 100%;
+  width: calc(100% - 20px);
 }
 
 footer > p {
