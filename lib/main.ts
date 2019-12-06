@@ -1,6 +1,6 @@
 import { BuildManifest, compile } from "./mod.ts"
 import * as defaultManifest from "./default/defaults.ts"
-import { flags } from "./deps.ts"
+import { flags, fs } from "./deps.ts"
 
 const args = flags.parse(Deno.args.slice(1));
 
@@ -17,10 +17,15 @@ function cloneManifest(source) {
 
 cloneManifest(defaultManifest)
 try {
-  const userManifest = await import(`file://${Deno.cwd()}/build.ts`)
-  cloneManifest(userManifest)
+  if (await fs.exists(`${Deno.cwd()}/build.ts`)) {
+    const userManifest = await import(`file://${Deno.cwd()}/build.ts`)
+    cloneManifest(userManifest)
+  } else {
+    console.warn("No build.ts found! Using the default configuration file.")
+  }
 } catch (e) {
-  console.error("An error occurred while importing the build.ts - Using the default.")
+  console.error("An error occurred while importing the build.ts file:")
+  console.error(e)
 }
 
 compile(manifest, sourceDirectory, targetDirectory)
