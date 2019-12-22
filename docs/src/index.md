@@ -17,16 +17,19 @@ $ deno install side "https://side.alloc.tech/x/main.ts" --allow-read --allow-wri
 
 All configuration is done through TypeScript. Here, we use a TypeScript *build manifest* to render out some Markdown:
 
-### build.ts
-
 ```typescript
-import {
-  transformText, renderMarkdown
-} from "https://side.alloc.tech/x/mod.ts"
+export const build = async (side, ctx) => {
+  const { pipeline, ext, text } = await side.ext.get("pipeline");
+  const { renderMarkdown } = await side.ext.get("markdown");
 
-export const map = (_c, path, _d) =>
-  path.replace(/\.md$/, ".html")
+  return await pipeline(side, ctx, [
+    [ ext(".md", ".html"), text(async md => renderMarkdown(md).content) ]
+  ])
+}
+```
 
-export const transform = async (_c, _p, data) =>
-  transformText(data, text => renderMarkdown(text).content)
+And we can compile the site in one command:
+
+```sh
+$ side
 ```

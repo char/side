@@ -16,7 +16,7 @@ export function transformText<T extends (string | Promise<string>)>(buffer: Uint
   return encodeUTF8(result as string)
 }
 
-export const prettyLink = (href: string) => {
+export function prettyLink(href: string) {
   if (href.endsWith("/index.html") || href === "index.html")
     href = href.substring(0, href.length - "index.html".length)
 

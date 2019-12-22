@@ -1,5 +1,5 @@
 all:
-	deno --allow-read --allow-write ../lib/main.ts
+	side
 
 serve:
 	cd build/ && python -m http.server

@@ -1,6 +1,4 @@
-import { Templating as React } from "../lib/mod.ts"
-
-export default ({ metadata, content, ctx }) => {
+export default ({ metadata, content, ctx }, React) => {
   const { global } = ctx
 
   return (
@@ -11,9 +9,9 @@ export default ({ metadata, content, ctx }) => {
       <meta http-equiv="X-UA-Compatible" content="ie=edge" />
       <link href="data:," rel="icon" />
 
-      <title>{ metadata.title } - { global.siteTitle }</title>
+      <title>{ metadata.title } - side</title>
       <meta name="generation-date" content={ global.date } />
-      <style __innerHTML={global.styles} />
+      <style __content={global.styles} />
     </head>
     <body>
       <nav>
@@ -24,7 +22,7 @@ export default ({ metadata, content, ctx }) => {
         </ul>
       </nav>
 
-      <main __innerHTML={content} />
+      <main __content={content} />
 
       <footer>
         <p>A project by <a href="https://anthony.som.codes/">Anthony Som</a>.</p>
