@@ -1,6 +1,30 @@
 import template from "./template.tsx";
 import hljs from "./vendor/hljs/index.js";
 
+export async function build(side, ctx) {
+  const { pipeline, ext, text, htmlDirectories, nopTransform } = await side.ext.get("pipeline");
+  const { renderTemplate } = await side.ext.get("templating");
+  const { marked, renderMarkdown } = await side.ext.get("markdown");
+  const { minifyCSS, minifyHTML } = await side.ext.get("minification");
+
+  marked.setOptions({
+    highlight: (code, lang) => {
+      if (lang) return hljs.highlight(lang, code).value;
+      else return code;
+    }
+  });
+
+  ctx.global.styles = minifyCSS(await ctx.readText("../global.css"));
+  ctx.global.nav = await generateNav(side, ctx);
+  ctx.global.date = new Date();
+
+  return await pipeline(side, ctx, [
+    [ ext(".md", ".html"), text(async md => renderTemplate(ctx, template, renderMarkdown(md))) ],
+    [ htmlDirectories, nopTransform ],
+    [ n => n.endsWith(".html") ? n : undefined, text(async html => minifyHTML(html)) ]
+  ]);
+}
+
 async function generateNav(side, ctx) {
   const { withText, prettyLink } = side;
   const { parseFrontMatter } = await side.ext.get("markdown");
@@ -27,27 +51,4 @@ async function generateNav(side, ctx) {
       title: metadata.title,
       href: prettyLink(mapName(name))
     }));
-}
-
-export async function build(side, ctx) {
-  const { pipeline, ext, text, htmlDirectories, nopTransform } = await side.ext.get("pipeline");
-  const { renderTemplate } = await side.ext.get("templating");
-  const { marked, renderMarkdown } = await side.ext.get("markdown");
-  const { minifyCSS, minifyHTML } = await side.ext.get("minification");
-
-  marked.setOptions({
-    highlight: (code, lang) => {
-      if (lang) return hljs.highlight(lang, code).value;
-      else return code;
-    }
-  });
-
-  ctx.global.styles = minifyCSS(side.decodeUTF8(await ctx.read("../global.css")));
-  ctx.global.nav = await generateNav(side, ctx);
-
-  return await pipeline(side, ctx, [
-    [ ext(".md", ".html"), text(async md => renderTemplate(ctx, template, renderMarkdown(md))) ],
-    [ htmlDirectories, nopTransform ],
-    [ n => n.endsWith(".html") ? n : undefined, text(async html => minifyHTML(html)) ]
-  ]);
 }

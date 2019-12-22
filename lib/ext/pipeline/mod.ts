@@ -1,4 +1,4 @@
-type PipelineElement = [ (string) => string | Promise<string | undefined>, (Uint8Array) => Promise<Uint8Array> ]
+type PipelineElement = [ (name: string) => string | Promise<string | undefined>, (name: string, mappedName: string, buffer: Uint8Array) => Promise<Uint8Array> ]
 
 export function ext(match, replacement) {
   return async (name) => {
@@ -10,11 +10,11 @@ export function ext(match, replacement) {
   }
 }
 
-export function text(callback: (string) => Promise<string>): (Uint8Array) => Promise<Uint8Array> {
+export function text(callback: (s: string) => Promise<string>): (name: string, mappedName: string, buffer: Uint8Array) => Promise<Uint8Array> {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder("utf-8");
 
-  return async (buffer) => {
+  return async (name, mappedName, buffer) => {
     let text = decoder.decode(buffer);
     text = await callback(text)
     buffer = encoder.encode(text)
@@ -31,8 +31,15 @@ export async function htmlDirectories(name: string): Promise<string | undefined>
   return undefined;
 }
 
-export async function nopTransform(buffer: Uint8Array): Promise<Uint8Array> {
+export async function nopTransform(name: string, mappedName: string, buffer: Uint8Array): Promise<Uint8Array> {
   return buffer
+}
+
+export function asModule(ctx, callback: (module: any) => Promise<Uint8Array>): (name: string, mappedName: string, buffer: Uint8Array) => Promise<Uint8Array> {
+  return async (name, mappedName, buffer) => {
+    const mod = await import(ctx.locateSourceFile(name))
+    return await callback(mod)
+  }
 }
 
 export async function pipeline(side, ctx, elements: PipelineElement[]) {
@@ -46,7 +53,7 @@ export async function pipeline(side, ctx, elements: PipelineElement[]) {
         continue;
 
       mappedName = elementMappedName;
-      buffer = await element[1](buffer);
+      buffer = await element[1](name, mappedName, buffer);
     }
 
     await ctx.write(mappedName, buffer);

@@ -1,4 +1,4 @@
-export default ({ metadata, content, ctx }, React) => {
+export default ({ metadata, content, ctx, React }) => {
   const { global } = ctx
 
   return (

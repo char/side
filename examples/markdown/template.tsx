@@ -1,4 +1,4 @@
-export default async ({ content, metadata }, React) =>
+export default async ({ content, metadata, React }) =>
 
 <html>
   <head>

@@ -5,6 +5,6 @@ export const Templating = {
 }
 
 export const renderTemplate = async (ctx, template, scope) => {
-  const renderScope = { ...scope, ctx }
-  return renderToString(await template(renderScope, Templating))
+  const renderScope = { ...scope, ctx, React: Templating }
+  return renderToString(await template(renderScope))
 }

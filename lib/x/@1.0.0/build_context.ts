@@ -7,6 +7,7 @@ export interface BuildManifest {
 
 export class BuildContext {
   readonly side: any;
+  readonly manifest: BuildManifest;
 
   readonly sourceDir: string;
   readonly targetDir: string;
@@ -16,6 +17,7 @@ export class BuildContext {
 
   constructor(side: any, cwd: string, manifest: BuildManifest) {
     this.side = side;
+    this.manifest = manifest;
 
     this.sourceDir = cwd + "/" + (manifest.source || "src")
     this.targetDir = cwd + "/" + (manifest.target || "build")
@@ -34,6 +36,10 @@ export class BuildContext {
 
   async read(name: string): Promise<Uint8Array> {
     return await Deno.readFile(this.locateSourceFile(name))
+  }
+
+  async readText(name: string): Promise<string> {
+    return await fs.readFileStr(this.locateSourceFile(name))
   }
 
   async write(name: string, data: Uint8Array) {
