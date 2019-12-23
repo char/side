@@ -21,7 +21,7 @@ const side: Side = await import(`./@${await getVersion()}/mod.ts`) as any
 const { BuildContext } = side
 
 try {
-  const buildScript = await import(`${Deno.cwd()}/build.ts`);
+  const buildScript = await import(new URL(`file://${Deno.cwd()}/build.ts`).href);
   try {
     const manifest = buildScript.manifest || {};
 
