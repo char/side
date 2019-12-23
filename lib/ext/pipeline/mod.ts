@@ -37,7 +37,7 @@ export async function nopTransform(name: string, mappedName: string, buffer: Uin
 
 export function asModule(ctx, callback: (module: any) => Promise<Uint8Array>): (name: string, mappedName: string, buffer: Uint8Array) => Promise<Uint8Array> {
   return async (name, mappedName, buffer) => {
-    const mod = await import(ctx.locateSourceFile(name))
+    const mod = await import(new URL(`file://${ctx.locateSourceFile(name)}`).href)
     return await callback(mod)
   }
 }
