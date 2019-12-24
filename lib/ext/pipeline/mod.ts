@@ -2,11 +2,19 @@ type PipelineElement = [ (name: string) => string | Promise<string | undefined>,
 
 export function ext(match, replacement) {
   return async (name) => {
-    if (name.endsWith(match)) {
+    if (name.endsWith(match))
       return name.substring(0, name.length - match.length) + replacement
-    } else {
-      return undefined;
-    }
+
+    return undefined;
+  }
+}
+
+export function lit(match) {
+  return async (name) => {
+    if (name === match)
+      return name;
+
+    return undefined;
   }
 }
 
