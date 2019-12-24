@@ -49,7 +49,9 @@ export class BuildContext {
   }
 
   async writeText(name: string, content: string) {
-    return await fs.writeFileStr(this.locateSourceFile(name), content)
+    const targetPath = path.resolve(Deno.cwd(), this.targetDir, name)
+    try { await fs.ensureDir(path.dirname(targetPath)) } catch (e) {}
+    return await fs.writeFileStr(targetPath, content)
   }
 
   async copy(name: string) {

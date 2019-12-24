@@ -9,10 +9,10 @@ export function ext(match, replacement) {
   }
 }
 
-export function lit(match) {
+export function lit(match, replacement = match) {
   return async (name) => {
     if (name === match)
-      return name;
+      return replacement;
 
     return undefined;
   }
