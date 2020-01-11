@@ -1,6 +1,6 @@
 // Dynamically import the latest version of side
-import * as path from "https://deno.land/std/path/mod.ts"
-import * as fs from "https://deno.land/std/fs/mod.ts";
+import * as path from "https://deno.land/std@v0.28.1/path/mod.ts"
+import * as fs from "https://deno.land/std@v0.28.1/fs/mod.ts";
 
 type Side = any;
 
