@@ -1,5 +1,5 @@
 import marked from "https://denolib.com/denolib/marked/main.ts";
-import * as yaml from "https://deno.land/std@v0.28.1@v0.28.1/encoding/yaml.ts";
+import * as yaml from "https://deno.land/std@v0.28.1/encoding/yaml.ts";
 
 export function parseFrontMatter(markdown: string): { content: string, metadata: any } {
   const match = /---\r?\n([\s\S]+?)\r?\n---/.exec(markdown);
